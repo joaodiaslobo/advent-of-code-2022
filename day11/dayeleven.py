@@ -1,3 +1,6 @@
+from math import lcm
+
+
 class Monkey:
     def __init__(self, items, operation, divisible, true, false, inspections):
         self.items = items
@@ -72,10 +75,9 @@ def day_eleven_part_one():
     return monkey_business
 
 
-# TODO: Find a way to keep the values manage-able without losing info because this will probably run out of memory
-#  before it ends
 def day_eleven_part_two():
     monkeys = get_input()
+    multiple = lcm(*(m.divisible for m in monkeys))
     # 20 rounds
     for a in range(10000):
         index = 0
@@ -97,9 +99,9 @@ def day_eleven_part_two():
                     else:
                         v = int(op_l[2])
                         worry += v
-                # Bored
-                # worry = int(worry / 3)
-                # Check divisible
+
+                worry = int(worry % multiple)
+
                 if worry % monkey.divisible == 0:
                     # Give to monkey in true
                     monkeys[monkey.true].items.append(worry)
